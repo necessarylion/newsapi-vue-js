@@ -7,21 +7,24 @@
     "dev": "vite --port 3000",
     "build": "vite build",
     "watch": "vite build --watch",
-    "start": "concurrently \"npm run dev\" \"npm run watch\" --prefix \"|\"" ,
+    "start": "concurrently \"npm run dev\" \"npm run watch\" --prefix \"|\"",
     "preview": "vite preview",
     "lint": "eslint src --ext .js",
     "lint:fix": "eslint src --ext .js --fix"
   },
   "dependencies": {
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "vuetify": "^3.1.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
     "concurrently": "^7.6.0",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-vue": "^9.9.0",
+    "eslint-plugin-vuetify": "^2.0.0-beta.2",
     "vite": "^4.1.0",
     "vite-plugin-eslint": "^1.8.1"
   }
