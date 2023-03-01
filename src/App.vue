@@ -1,13 +1,11 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
-  <div>
-    <v-btn>
-  Button
-</v-btn>
+  <div id="nav">
+    <router-link to="/"> Home</router-link> |
+    <router-link to="/detail"> Detail</router-link>
   </div>
+  <router-view />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

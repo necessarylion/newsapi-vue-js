@@ -7,7 +7,8 @@ module.exports = {
     'plugin:vue/vue3-essential', 
     'airbnb-base', 
     'plugin:vuetify/base', 
-    'plugin:import/recommended'
+    'plugin:import/recommended',
+    'prettier'
   ],
   overrides: [],
   parserOptions: {
@@ -15,10 +16,12 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['vue'],
-  rules: {},
+  rules: {
+    'import/no-unresolved' : 'off'
+  },
   settings: {
-    "import/resolver": {
-      typescript: {}
+    'import/resolver': {
+      typescript: {},
     },
   },
 }
