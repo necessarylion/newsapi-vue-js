@@ -2,8 +2,9 @@
 
 ### Run Project for development
 
-- yarn install
-- yarn start
+- `cp .env.example .env` and replace api key in `VITE_API_KEY`
+- `yarn install`
+- `yarn start`
 
 
 ### Build Project for production

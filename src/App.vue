@@ -1,11 +1,13 @@
-<script setup></script>
-
 <template>
-  <div id="nav">
-    <router-link to="/"> Home</router-link> |
-    <router-link to="/detail"> Detail</router-link>
+  <div class="body-content">
+    <router-view class="v-container" />
   </div>
-  <router-view />
 </template>
 
-<style scoped></style>
+<style scoped>
+.body-content {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+</style>
