@@ -3,10 +3,10 @@ import moment from 'moment'
 import { useStore } from 'vuex'
 import { ADD_HEADLINE_HISTORY } from '@/store/headlineHistory/mutations'
 
-const { dispatch } = useStore()
-
 defineProps(['headline'])
 const formatDate = (date) => moment(date).fromNow()
+
+const { dispatch } = useStore()
 
 const addToHistory = (val) => {
   dispatch(ADD_HEADLINE_HISTORY, val)
@@ -16,28 +16,27 @@ const addToHistory = (val) => {
 
 <template>
   <div class="card">
-    <div class="clickable-area" @click="$emit('on-view')">
-      <div class="source-date-container">
-        <span class="source-name">
-          {{ headline.source.name }}
-        </span>
-        <span class="publish-date">
-          {{ formatDate(headline.publishedAt) }}
-        </span>
-      </div>
-      <div class="news-title">
-        {{ headline.title }}
-      </div>
-      <div class="news-description">
-        {{ headline.description }}
-      </div>
-      <div class="news-author">By {{ headline.author }}</div>
+    <div class="news-title">
+      {{ headline.title }}
     </div>
-
+    <div v-if="headline.urlToImage" class="news-image">
+      <img :src="headline.urlToImage" alt="" />
+    </div>
+    <div class="news-description">
+      {{ headline.description }}
+    </div>
+    <div class="news-content" v-html="headline.content"></div>
+    <div class="source-date-container">
+      <span class="source-name">
+        {{ headline.source.name }}
+      </span>
+      <span class="publish-date">
+        {{ formatDate(headline.publishedAt) }}
+      </span>
+    </div>
+    <div class="news-author">By {{ headline.author }}</div>
     <div class="card-footer">
-      <div class="news-edit-btn" @click="$emit('on-edit')">
-        <v-icon class="view-edit-icon" icon="fas fa-pen-square" />
-      </div>
+      <div></div>
       <div class="news-detail-btn" @click="addToHistory(headline)">
         Read More
         <v-icon class="view-detail-icon" icon="fas fa-arrow-right" size="x-small" />
@@ -57,10 +56,15 @@ const addToHistory = (val) => {
   width: 100%;
 }
 
-.clickable-area {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.news-image {
+  text-align: center;
+}
+
+.news-image img {
+  border-style: none;
+  width: 100%;
+  border-radius: 5px;
+  margin: 14px 0px;
 }
 
 .source-date-container {
@@ -94,11 +98,18 @@ const addToHistory = (val) => {
 
 .news-description {
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  margin-bottom: 8px;
-  font-size: 12px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  font-size: 14px;
+  font-family: 'Newsreader';
+  color: #604d31;
+}
+
+.news-content {
+  overflow: hidden;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  font-size: 14px;
   font-family: 'Newsreader';
   color: #604d31;
 }
@@ -128,15 +139,5 @@ const addToHistory = (val) => {
 
 .view-detail-icon {
   color: #504f4f;
-}
-
-.news-edit-btn {
-  cursor: pointer;
-  color: #504f4f;
-  font-size: 11px;
-}
-
-.view-edit-icon {
-  color: #f6a022;
 }
 </style>

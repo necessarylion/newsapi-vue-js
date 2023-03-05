@@ -1,9 +1,16 @@
-<script setup></script>
+<script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const goToHome = () => {
+  router.push('/')
+}
+</script>
 
 <template>
   <nav>
     <div class="v-container justify-between">
-      <v-sheet class="ma-2 pa-2 nav-bar">
+      <v-sheet class="ma-2 pa-2 nav-bar" @click="goToHome()">
         <v-icon class="mr-2" icon="fab fa-neos" size="small"></v-icon>
         <span class="logo-text">Today News</span>
       </v-sheet>

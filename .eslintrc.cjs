@@ -19,6 +19,8 @@ module.exports = {
   rules: {
     'import/no-unresolved': 'off',
     'no-console': 'off',
+    'no-param-reassign' : 'off',
+    'import/prefer-default-export' : 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

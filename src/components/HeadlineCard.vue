@@ -3,33 +3,36 @@ import moment from 'moment'
 import { useStore } from 'vuex'
 import { ADD_HEADLINE_HISTORY } from '@/store/headlineHistory/mutations'
 
-const store = useStore()
+const { dispatch } = useStore()
 
 defineProps(['headline'])
 const formatDate = (date) => moment(date).fromNow()
 
 const addToHistory = (val) => {
-  store.commit(ADD_HEADLINE_HISTORY, val)
+  dispatch(ADD_HEADLINE_HISTORY, val)
+  window.open(val.url)
 }
 </script>
 
 <template>
   <div class="card">
-    <div class="source-date-container">
-      <span class="source-name">
-        {{ headline.source.name }}
-      </span>
-      <span class="publish-date">
-        {{ formatDate(headline.publishedAt) }}
-      </span>
+    <div class="clickable-area" @click="$emit('on-view')">
+      <div class="source-date-container">
+        <span class="source-name">
+          {{ headline.source.name }}
+        </span>
+        <span class="publish-date">
+          {{ formatDate(headline.publishedAt) }}
+        </span>
+      </div>
+      <div class="news-title">
+        {{ headline.title }}
+      </div>
+      <div class="news-description">
+        {{ headline.description }}
+      </div>
+      <div class="news-author">By {{ headline.author }}</div>
     </div>
-    <div class="news-title">
-      {{ headline.title }}
-    </div>
-    <div class="news-description">
-      {{ headline.description }}
-    </div>
-    <div class="news-author">By {{ headline.author }}</div>
 
     <div class="card-footer">
       <div class="news-edit-btn" @click="$emit('on-edit')">
@@ -52,6 +55,12 @@ const addToHistory = (val) => {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.clickable-area {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .source-date-container {
