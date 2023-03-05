@@ -4,6 +4,7 @@ import { onMounted } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import HeadlineDetailCard from '@/components/HeadlineDetailCard.vue'
 import { SET_SELECTED_HEADLINE_WITH_DATA } from '@/store/headline/mutations'
+import { ADD_HEADLINE_HISTORY } from '@/store/headlineHistory/mutations'
 
 const {
   dispatch,
@@ -18,6 +19,11 @@ onMounted(() => {
     }
   }
 })
+
+const addToHistory = () => {
+  dispatch(ADD_HEADLINE_HISTORY, headline.selectedHeadline)
+  window.open(headline.selectedHeadline.url)
+}
 </script>
 
 <template>
@@ -27,7 +33,10 @@ onMounted(() => {
       <v-row no-gutters>
         <v-col cols="12">
           <v-sheet class="ma-2 pa-2 line">
-            <HeadlineDetailCard :headline="headline.selectedHeadline" />
+            <HeadlineDetailCard
+              @on-open-url="addToHistory()"
+              :headline="headline.selectedHeadline"
+            />
           </v-sheet>
         </v-col>
       </v-row>

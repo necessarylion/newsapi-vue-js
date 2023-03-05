@@ -1,17 +1,7 @@
 <script setup>
-import moment from 'moment'
-import { useStore } from 'vuex'
-import { ADD_HEADLINE_HISTORY } from '@/store/headlineHistory/mutations'
-
-const { dispatch } = useStore()
+import { formatDate } from '@/utils/helper'
 
 defineProps(['headline'])
-const formatDate = (date) => moment(date).fromNow()
-
-const addToHistory = (val) => {
-  dispatch(ADD_HEADLINE_HISTORY, val)
-  window.open(val.url)
-}
 </script>
 
 <template>
@@ -31,14 +21,14 @@ const addToHistory = (val) => {
       <div class="news-description">
         {{ headline.description }}
       </div>
-      <div class="news-author">By {{ headline.author }}</div>
+      <div class="news-author">By <span v-html="headline.author"></span></div>
     </div>
 
     <div class="card-footer">
       <div class="news-edit-btn" @click="$emit('on-edit')">
         <v-icon class="view-edit-icon" icon="fas fa-pen-square" />
       </div>
-      <div class="news-detail-btn" @click="addToHistory(headline)">
+      <div class="news-detail-btn" @click="$emit('on-open-url')">
         Read More
         <v-icon class="view-detail-icon" icon="fas fa-arrow-right" size="x-small" />
       </div>
@@ -55,6 +45,11 @@ const addToHistory = (val) => {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.card:hover {
+  background: #fff6db;
+  cursor: pointer;
 }
 
 .clickable-area {
@@ -101,6 +96,7 @@ const addToHistory = (val) => {
   font-size: 12px;
   font-family: 'Newsreader';
   color: #604d31;
+  flex: 1;
 }
 
 .news-author {

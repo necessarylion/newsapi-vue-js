@@ -10,8 +10,7 @@ const goToHome = () => {
 <template>
   <nav>
     <div class="v-container justify-between">
-      <v-sheet class="ma-2 pa-2 nav-bar" @click="goToHome()">
-        <v-icon class="mr-2" icon="fab fa-neos" size="small"></v-icon>
+      <v-sheet class="ma-2 pa-2 nav-bar pointer" @click="goToHome()">
         <span class="logo-text">Today News</span>
       </v-sheet>
     </div>

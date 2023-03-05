@@ -13,9 +13,12 @@ import {
   GET_HEADLINE,
   FILTER_HEADLINE_BY_SOURCE,
   SET_SELECTED_HEADLINE,
-  UPDATE_HEADLINE
+  UPDATE_HEADLINE,
+  SET_HEADLINE_LOADING
 } from '@/store/headline/mutations'
 import { GET_SOURCE } from '@/store/source/mutations'
+import { ADD_HEADLINE_HISTORY } from '@/store/headlineHistory/mutations'
+import { convertToSlug } from '@/utils/helper'
 
 const {
   dispatch,
@@ -43,6 +46,7 @@ const updateHeadline = (title) => {
 }
 
 const onSearch = (event) => {
+  dispatch(SET_HEADLINE_LOADING, true)
   clearTimeout(searchTimer.value)
   searchTimer.value = setTimeout(() => {
     dispatch(SEARCH_HEADLINE, event.target.value)
@@ -57,15 +61,15 @@ const updateSource = (arr) => {
   }
 }
 
-const convertToSlug = (Text) =>
-  Text.toLowerCase()
-    .replace(/ /g, '-')
-    .replace(/[^\w-]+/g, '')
-
 const viewDetail = (index) => {
   dispatch(SET_SELECTED_HEADLINE, index)
   const data = headline.headlines[index]
   router.push({ path: `/detail/${convertToSlug(data.title)}` })
+}
+
+const addToHistory = (val) => {
+  dispatch(ADD_HEADLINE_HISTORY, val)
+  window.open(val.url)
 }
 </script>
 
@@ -116,6 +120,7 @@ const viewDetail = (index) => {
               :headline="h"
               @on-edit="editHeadline(index)"
               @on-view="viewDetail(index)"
+              @on-open-url="addToHistory(h)"
             />
           </v-sheet>
         </v-col>

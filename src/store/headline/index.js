@@ -5,7 +5,8 @@ import {
   FILTER_HEADLINE_BY_SOURCE,
   SET_SELECTED_HEADLINE,
   UPDATE_HEADLINE,
-  SET_SELECTED_HEADLINE_WITH_DATA
+  SET_SELECTED_HEADLINE_WITH_DATA,
+  SET_HEADLINE_LOADING
 } from './mutations'
 
 export default {
@@ -33,14 +34,14 @@ export default {
       state.loading = false
     },
     [SEARCH_HEADLINE]: async (state, keyword) => {
-      if (keyword && !state.loading) {
-        state.loading = true
+      state.loading = true
+      if (keyword) {
         const res = await NewsApiService.searchHeadline(keyword)
         if (res.status === 'ok') {
           state.headlines = res.articles
         }
-        state.loading = false
       }
+      state.loading = false
     },
     [SET_SELECTED_HEADLINE]: (state, index) => {
       const headline = state.headlines[index]
@@ -56,6 +57,9 @@ export default {
         ...state.headlines[state.selectedHeadlineIndex],
         title
       }
+    },
+    [SET_HEADLINE_LOADING]: (state, data) => {
+      state.loading = data
     }
   },
   actions: {
@@ -80,6 +84,9 @@ export default {
     },
     [UPDATE_HEADLINE]: ({ commit }, payload) => {
       commit(UPDATE_HEADLINE, payload)
+    },
+    [SET_HEADLINE_LOADING]: ({ commit }, payload) => {
+      commit(SET_HEADLINE_LOADING, payload)
     }
   }
 }

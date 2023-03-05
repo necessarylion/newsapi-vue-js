@@ -1,17 +1,7 @@
 <script setup>
-import moment from 'moment'
-import { useStore } from 'vuex'
-import { ADD_HEADLINE_HISTORY } from '@/store/headlineHistory/mutations'
+import { formatDate } from '@/utils/helper'
 
 defineProps(['headline'])
-const formatDate = (date) => moment(date).fromNow()
-
-const { dispatch } = useStore()
-
-const addToHistory = (val) => {
-  dispatch(ADD_HEADLINE_HISTORY, val)
-  window.open(val.url)
-}
 </script>
 
 <template>
@@ -20,7 +10,7 @@ const addToHistory = (val) => {
       {{ headline.title }}
     </div>
     <div v-if="headline.urlToImage" class="news-image">
-      <img :src="headline.urlToImage" alt="" />
+      <img :src="headline.urlToImage" :alt="headline.title" />
     </div>
     <div class="news-description">
       {{ headline.description }}
@@ -37,7 +27,7 @@ const addToHistory = (val) => {
     <div class="news-author">By {{ headline.author }}</div>
     <div class="card-footer">
       <div></div>
-      <div class="news-detail-btn" @click="addToHistory(headline)">
+      <div class="news-detail-btn" @click="$emit('on-open-url')">
         Read More
         <v-icon class="view-detail-icon" icon="fas fa-arrow-right" size="x-small" />
       </div>
