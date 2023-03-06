@@ -14,8 +14,8 @@ class NewsApiService {
     return this.apiCall('top-headlines', { sources })
   }
 
-  async getSources() {
-    return this.apiCall('sources')
+  async getSources(params) {
+    return this.apiCall('sources', params)
   }
 
   async apiCall(route, params) {

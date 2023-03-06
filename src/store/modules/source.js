@@ -3,19 +3,23 @@ import { GET_SOURCE } from '@/store/mutations'
 
 export default {
   state: () => ({
-    sources: []
+    sources: [],
+    error: null
   }),
   mutations: {
-    [GET_SOURCE]: async (state) => {
-      const res = await NewsApiService.getSources()
+    [GET_SOURCE]: async (state, params) => {
+      state.errorMessage = null
+      const res = await NewsApiService.getSources(params)
       if (res.status === 'ok') {
         state.sources = res.sources
+      } else {
+        state.errorMessage = res.message
       }
     }
   },
   actions: {
-    [GET_SOURCE]: ({ commit }) => {
-      commit(GET_SOURCE)
+    [GET_SOURCE]: ({ commit }, payload = {}) => {
+      commit(GET_SOURCE, payload)
     }
   }
 }

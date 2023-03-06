@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useStore } from 'vuex'
 import HeadlineCard from '@/components/HeadlineCard.vue'
 import HeadlineCardSkeleton from '@/components/HeadlineCardSkeleton.vue'
 import HeadlineUpdateModal from '@/components/HeadlineUpdateModal.vue'
 import NavBar from '@/components/NavBar.vue'
 import FilterSourceModal from '@/components/FilterSourceModal.vue'
+import ErrorDialog from '@/components/ErrorDialog.vue'
 import RecentlyVisitedHeadline from '@/components/RecentlyVisitedHeadline.vue'
 import {
   SEARCH_HEADLINE,
@@ -24,6 +25,7 @@ const {
 
 const showDialog = ref(false)
 const showFilterDialog = ref(false)
+const showErrorDialog = ref(false)
 const searchTimer = ref()
 
 onMounted(() => {
@@ -55,6 +57,20 @@ const updateSource = (arr) => {
     dispatch(GET_HEADLINE)
   }
 }
+
+// watch the error to show error dialog
+watch(
+  () => source.errorMessage,
+  (val) => {
+    if (val) {
+      showErrorDialog.value = true
+    }
+  }
+)
+
+const makeErrorApiCall = () => {
+  dispatch(GET_SOURCE, { apiKey: '' })
+}
 </script>
 
 <template>
@@ -78,11 +94,20 @@ const updateSource = (arr) => {
         <v-btn
           variant="outlined"
           @click="showFilterDialog = true"
-          class="filter-btn"
+          class="filter-btn mr-2"
           color="primary"
           prepend-icon="fas fa-filter"
         >
           Filter
+        </v-btn>
+        <v-btn
+          variant="outlined"
+          @click="makeErrorApiCall()"
+          class="error-btn"
+          color="red"
+          prepend-icon="fas fa-close"
+        >
+          Show Error
         </v-btn>
       </div>
     </div>
@@ -112,6 +137,12 @@ const updateSource = (arr) => {
         </v-col>
       </template>
     </v-row>
+
+    <ErrorDialog
+      :errorMessage="source?.errorMessage"
+      :show="showErrorDialog"
+      @update:show="showErrorDialog = $event"
+    />
 
     <FilterSourceModal
       :sources="source.sources"
@@ -147,6 +178,10 @@ const updateSource = (arr) => {
 }
 
 .filter-btn {
-  height: 40px;
+  height: 42px;
+}
+
+.error-btn {
+  height: 42px;
 }
 </style>
