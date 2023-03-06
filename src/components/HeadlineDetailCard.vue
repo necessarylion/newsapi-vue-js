@@ -10,7 +10,7 @@ defineProps(['headline'])
       {{ headline.title }}
     </div>
     <div v-if="headline.urlToImage" class="news-image">
-      <img :src="headline.urlToImage" :alt="headline.title" />
+      <img :src="headline.urlToImage" alt="headline" />
     </div>
     <div class="news-description">
       {{ headline.description }}
