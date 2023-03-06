@@ -3,8 +3,7 @@ import { useStore } from 'vuex'
 import { onMounted } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import HeadlineDetailCard from '@/components/HeadlineDetailCard.vue'
-import { SET_SELECTED_HEADLINE_WITH_DATA } from '@/store/headline/mutations'
-import { ADD_HEADLINE_HISTORY } from '@/store/headlineHistory/mutations'
+import { SET_SELECTED_HEADLINE_WITH_DATA, ADD_TO_VISITED_HEADLINE } from '@/store/mutations'
 
 const {
   dispatch,
@@ -21,7 +20,7 @@ onMounted(() => {
 })
 
 const addToHistory = () => {
-  dispatch(ADD_HEADLINE_HISTORY, headline.selectedHeadline)
+  dispatch(ADD_TO_VISITED_HEADLINE, headline.selectedHeadline)
   window.open(headline.selectedHeadline.url)
 }
 </script>

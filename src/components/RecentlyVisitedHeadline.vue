@@ -3,12 +3,14 @@ import { useStore } from 'vuex'
 import { ref } from 'vue'
 import HeadlineCard from './HeadlineCard.vue'
 
-const store = useStore()
+const {
+  state: { headline }
+} = useStore()
 const showHeadlineHistory = ref(true)
 </script>
 
 <template>
-  <v-row no-gutters v-if="store.state.headlineHistory.list.length > 0">
+  <v-row no-gutters v-if="headline.visitedHeadlines.length > 0">
     <v-col cols="12">
       <v-sheet class="ma-2 pa-2 line">
         <div class="recent-title" @click="showHeadlineHistory = !showHeadlineHistory">
@@ -29,7 +31,7 @@ const showHeadlineHistory = ref(true)
 
     <template v-if="showHeadlineHistory">
       <v-col
-        v-for="(h, index) in store.state.headlineHistory.list"
+        v-for="(h, index) in headline.visitedHeadlines"
         :key="index"
         cols="12"
         sm="6"
@@ -37,7 +39,7 @@ const showHeadlineHistory = ref(true)
         lg="4"
       >
         <v-sheet class="ma-2 pa-2 sheet">
-          <HeadlineCard :headline="h" @on-edit="editHeadline(index)" />
+          <HeadlineCard :headline="h" :show-edit="false" />
         </v-sheet>
       </v-col>
       <v-col cols="12">

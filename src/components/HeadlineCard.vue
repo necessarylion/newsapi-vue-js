@@ -1,12 +1,27 @@
 <script setup>
-import { formatDate } from '@/utils/helper'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { convertToSlug, formatDate } from '@/utils/helper'
+import { ADD_TO_VISITED_HEADLINE, SET_SELECTED_HEADLINE_WITH_DATA } from '@/store/mutations'
 
-defineProps(['headline'])
+defineProps(['headline', 'show-edit'])
+const { dispatch } = useStore()
+const router = useRouter()
+
+const viewDetail = (data) => {
+  dispatch(SET_SELECTED_HEADLINE_WITH_DATA, data)
+  router.push({ path: `/detail/${convertToSlug(data.title)}` })
+}
+
+const openUrl = (data) => {
+  dispatch(ADD_TO_VISITED_HEADLINE, data)
+  window.open(data.url)
+}
 </script>
 
 <template>
   <div class="card">
-    <div class="clickable-area" @click="$emit('on-view')">
+    <div class="clickable-area" @click="viewDetail(headline)">
       <div class="source-date-container">
         <span class="source-name">
           {{ headline.source.name }}
@@ -25,10 +40,11 @@ defineProps(['headline'])
     </div>
 
     <div class="card-footer">
-      <div class="news-edit-btn" @click="$emit('on-edit')">
-        <v-icon class="view-edit-icon" icon="fas fa-pen-square" />
+      <div v-if="showEdit" class="news-edit-btn" @click="$emit('on-edit')">
+        <v-icon color="primary" icon="fas fa-pen-square" />
       </div>
-      <div class="news-detail-btn" @click="$emit('on-open-url')">
+      <div v-else></div>
+      <div class="news-detail-btn" @click="openUrl(headline)">
         Read More
         <v-icon class="view-detail-icon" icon="fas fa-arrow-right" size="x-small" />
       </div>
@@ -130,9 +146,5 @@ defineProps(['headline'])
   cursor: pointer;
   color: #504f4f;
   font-size: 11px;
-}
-
-.view-edit-icon {
-  color: #f6a022;
 }
 </style>

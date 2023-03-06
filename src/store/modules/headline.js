@@ -6,13 +6,15 @@ import {
   SET_SELECTED_HEADLINE,
   UPDATE_HEADLINE,
   SET_SELECTED_HEADLINE_WITH_DATA,
-  SET_HEADLINE_LOADING
-} from './mutations'
+  SET_HEADLINE_LOADING,
+  ADD_TO_VISITED_HEADLINE
+} from '@/store/mutations'
 
 export default {
   state: () => ({
     loading: false,
     headlines: [],
+    visitedHeadlines: [],
     selectedHeadlineIndex: null,
     selectedHeadline: null
   }),
@@ -60,6 +62,12 @@ export default {
     },
     [SET_HEADLINE_LOADING]: (state, data) => {
       state.loading = data
+    },
+    [ADD_TO_VISITED_HEADLINE]: (state, data) => {
+      const recordExist = state.visitedHeadlines.find((l) => l.title === data.title)
+      if (!recordExist) {
+        state.visitedHeadlines.push(data)
+      }
     }
   },
   actions: {
@@ -87,6 +95,9 @@ export default {
     },
     [SET_HEADLINE_LOADING]: ({ commit }, payload) => {
       commit(SET_HEADLINE_LOADING, payload)
+    },
+    [ADD_TO_VISITED_HEADLINE]: ({ commit }, payload) => {
+      commit(ADD_TO_VISITED_HEADLINE, payload)
     }
   }
 }

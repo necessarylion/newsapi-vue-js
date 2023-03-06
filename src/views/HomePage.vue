@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 import HeadlineCard from '@/components/HeadlineCard.vue'
 import HeadlineCardSkeleton from '@/components/HeadlineCardSkeleton.vue'
 import HeadlineUpdateModal from '@/components/HeadlineUpdateModal.vue'
@@ -14,18 +13,14 @@ import {
   FILTER_HEADLINE_BY_SOURCE,
   SET_SELECTED_HEADLINE,
   UPDATE_HEADLINE,
-  SET_HEADLINE_LOADING
-} from '@/store/headline/mutations'
-import { GET_SOURCE } from '@/store/source/mutations'
-import { ADD_HEADLINE_HISTORY } from '@/store/headlineHistory/mutations'
-import { convertToSlug } from '@/utils/helper'
+  SET_HEADLINE_LOADING,
+  GET_SOURCE
+} from '@/store/mutations'
 
 const {
   dispatch,
   state: { headline, source }
 } = useStore()
-
-const router = useRouter()
 
 const showDialog = ref(false)
 const showFilterDialog = ref(false)
@@ -59,17 +54,6 @@ const updateSource = (arr) => {
   } else {
     dispatch(GET_HEADLINE)
   }
-}
-
-const viewDetail = (index) => {
-  dispatch(SET_SELECTED_HEADLINE, index)
-  const data = headline.headlines[index]
-  router.push({ path: `/detail/${convertToSlug(data.title)}` })
-}
-
-const addToHistory = (val) => {
-  dispatch(ADD_HEADLINE_HISTORY, val)
-  window.open(val.url)
 }
 </script>
 
@@ -116,12 +100,7 @@ const addToHistory = (val) => {
       <template v-else-if="headline.headlines.length > 0">
         <v-col v-for="(h, index) in headline.headlines" :key="index" cols="12" sm="6" md="4" lg="4">
           <v-sheet class="ma-2 pa-2 sheet">
-            <HeadlineCard
-              :headline="h"
-              @on-edit="editHeadline(index)"
-              @on-view="viewDetail(index)"
-              @on-open-url="addToHistory(h)"
-            />
+            <HeadlineCard :headline="h" :show-edit="true" @on-edit="editHeadline(index)" />
           </v-sheet>
         </v-col>
       </template>

@@ -1,11 +1,9 @@
 import { createStore } from 'vuex'
-import headlineHistory from './headlineHistory'
-import headline from './headline'
-import source from './source'
+import headline from './modules/headline'
+import source from './modules/source'
 
 const store = createStore({
   modules: {
-    headlineHistory,
     headline,
     source
   }

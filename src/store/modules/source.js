@@ -1,5 +1,5 @@
 import NewsApiService from '@/services/NewsApiService'
-import { GET_SOURCE } from './mutations'
+import { GET_SOURCE } from '@/store/mutations'
 
 export default {
   state: () => ({
