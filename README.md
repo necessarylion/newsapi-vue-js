@@ -10,7 +10,8 @@
 ### To run project with docker
 
 - `cp .env.example .env` and replace api key for `VITE_API_KEY`
-- `docker-compose up -d --build`
+- `docker-compose up -d --build` to start
+- `docker-compose down` to stop
 
 ### Build Project for production
 
